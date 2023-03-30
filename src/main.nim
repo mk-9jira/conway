@@ -1,5 +1,6 @@
 import nico
 import os
+import random
 import sequtils
 
 const orgName = "mk-9jira"
@@ -16,12 +17,27 @@ let
 
 var boardCurrent = newSeqWith(nx, newSeq[bool](ny))
 var boardNext = newSeqWith(nx, newSeq[bool](ny))
+
+#[ test -->
 boardCurrent[0][0] = true
 boardCurrent[nx-1][ny-1] = true
 boardCurrent[10][10] = true
+<-- test ]#
+
+proc initBoard() =
+  for i in 0..<nx:
+    for j in 0..<ny:
+      let on = bool(rand(9) div 9)
+      boardCurrent[i][j] = on
+
+proc initEmptyBoard() =
+  for i in 0..<nx:
+    for j in 0..<ny:
+      boardCurrent[i][j] = false
 
 proc gameInit() =
   loadFont(0, "font.png")
+  initBoard()
 
 # count alive/dead cells around the specified cell
 proc neighbourCount(i, j: int): int =
@@ -62,6 +78,12 @@ proc gameUpdate(dt: float32) =
   if key(K_SPACE):
     updateBoard()
     sleep(200)
+  elif key(K_RETURN):
+    initBoard()
+    sleep(100)
+  elif key(K_0):
+    initEmptyBoard()
+    sleep(100)
   if mousebtn(0):
     let (x, y) = mouse()
     toggleCellInCurrent(x, y)
