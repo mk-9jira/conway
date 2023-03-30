@@ -1,7 +1,22 @@
 import nico
+import sequtils
 
 const orgName = "mk-9jira"
-const appName = "conway"
+const appName = "conway's game of life by mk-9jira"
+
+let
+  wx = 600
+  wy = 400
+  resoution = 10
+  dx = resoution
+  dy = resoution
+  nx = wx div dx
+  ny = wy div dy
+
+var board = newSeqWith(nx, newSeq[bool](ny))
+board[0][0] = true
+board[10][0] = true
+board[0][5] = true
 
 var buttonDown = false
 
@@ -13,9 +28,16 @@ proc gameUpdate(dt: float32) =
 
 proc gameDraw() =
   cls()
-  setColor(if buttonDown: 7 else: 3)
-  printc("welcome to " & appName, screenWidth div 2, screenHeight div 2)
+  # setColor(if buttonDown: 7 else: 3)
+  # printc("welcome to " & appName, screenWidth div 2, screenHeight div 2)
+  for i in 0..<nx:
+    for j in 0..<ny:
+      if board[i][j] == true:
+        setColor(3)
+        boxfill(i*dx, j*dy, dx, dy)
+      else:
+        setColor(7)
 
 nico.init(orgName, appName)
-nico.createWindow(appName, 128, 128, 4, false)
+nico.createWindow(appName, wx, wy, 1, false)
 nico.run(gameInit, gameUpdate, gameDraw)
