@@ -62,7 +62,6 @@ proc gameDraw() =
   # printc("welcome to " & appName, screenWidth div 2, screenHeight div 2)
   drawBoard()
   printGen()
-  echo typeof(boardCurrent)
 
 nico.init(orgName, appName)
 nico.createWindow(appName, wx, wy, 1, false)
