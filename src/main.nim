@@ -1,4 +1,5 @@
 import nico
+import os
 import sequtils
 
 const orgName = "mk-9jira"
@@ -18,13 +19,25 @@ board[0][0] = true
 board[10][0] = true
 board[0][5] = true
 
-var buttonDown = false
+# var buttonDown = false
 
 proc gameInit() =
   loadFont(0, "font.png")
 
+proc toggleCellInCurrent(x, y: int) =
+    let i = x div dx
+    let j = y div dy
+    if i < 0 or i >= nx or j < 0 or j >= ny:
+      return
+    board[i][j] = not board[i][j]
+
 proc gameUpdate(dt: float32) =
-  buttonDown = btn(pcA)
+  # buttonDown = btn(pcA)
+  if mousebtn(0):
+    let (x, y) = mouse()
+    toggleCellInCurrent(x, y)
+    # echo "(x, y) = (", x, ", ", y, ")"
+    sleep(100)
 
 proc gameDraw() =
   cls()
